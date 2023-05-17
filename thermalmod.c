@@ -14,8 +14,8 @@
 thrd_t calibration_th, reading_th;
 
 /* callibration and scanning require exclusive access to sensors */
-mtx_t mutex_calib;
-mtx_t mutex_read;
+mtx_t mutex_calib1;
+mtx_t mutex_read1;
 
 /* Thermal state structure */
 typedef struct temp_sensors {
