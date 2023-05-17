@@ -10,8 +10,6 @@
 #include "thermalmod.h"
 #include "consts.h"
 
-#if NEW_CODE
-
 /* calibration and sensors scanning threads */
 thrd_t calibration_th, reading_th;
 
@@ -47,12 +45,12 @@ void update_thermal_state()
 void * periodic_sensors_scan(void * ptr)
 {
     while (true) {
-        mtx_lock(&mutex_read);
-        mtx_lock(&mutex_calib);
+        mtx_lock(&mutex_read1);
+        mtx_lock(&mutex_calib1);
         read_sensors(ALL_SENSORS);
         sleep(10);
-        mtx_unlock(&mutex_calib);
-        mtx_unlock(&mutex_read);
+        mtx_unlock(&mutex_calib1);
+        mtx_unlock(&mutex_read1);
     }
     return NULL;
 }
@@ -92,8 +90,6 @@ void read_sensors(SENSORS sensors) {
             break;
     }
 }
-
-#endif
 
 /*
  * Grabs input from stdin
