@@ -9,12 +9,13 @@ extern mtx_t mutex_read;
 void* periodic_sensors_callibaration(void * ptr)
 {
     while (true) {
-        mtx_lock(&mutex_calib);
         mtx_lock(&mutex_read);
+        mtx_lock(&mutex_calib);
         callibrate_sensors(ALL_SENSORS);
         sleep(500 * 1000);
-        mtx_unlock(&mutex_read);
         mtx_unlock(&mutex_calib);
+        mtx_unlock(&mutex_read);
+
     }
     return NULL;
 }
