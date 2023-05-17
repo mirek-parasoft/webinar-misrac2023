@@ -2,20 +2,19 @@
 #include "thermalmod.h"
 #include "consts.h"
 
-#if NEW_CODE
 extern thrd_t calibration_th, reading_th;
-extern mtx_t mutex_calib;
-extern mtx_t mutex_read;
+extern mtx_t mutex_calib1;
+extern mtx_t mutex_read1;
 
 void* periodic_sensors_callibaration(void * ptr)
 {
     while (true) {
-        mtx_lock(&mutex_calib);
-        mtx_lock(&mutex_read);
+        mtx_lock(&mutex_calib1);
+        mtx_lock(&mutex_read1);
         callibrate_sensors(ALL_SENSORS);
         sleep(500 * 1000);
-        mtx_unlock(&mutex_read);
-        mtx_unlock(&mutex_calib);
+        mtx_unlock(&mutex_read1);
+        mtx_unlock(&mutex_calib1);
     }
     return NULL;
 }
@@ -37,4 +36,3 @@ void callibrate_sensors(SENSORS sensors) {
             break;
     }
 }
-#endif
